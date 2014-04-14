@@ -1,9 +1,8 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
 
 # Add ~/bin to path
 export PATH=$PATH:~/bin
+
 
 # If not running interactively, don't do anything
 case $- in
@@ -26,12 +25,8 @@ HISTFILESIZE=2000
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
-
 # make less more friendly for non-text input files, see lesspipe(1)
-#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
@@ -43,10 +38,8 @@ case "$TERM" in
     xterm-color) color_prompt=yes;;
 esac
 
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+# uncomment for a colored prompt
+force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -60,7 +53,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[m\] \[\e[1;32m\]\$ \[\e[m\] '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -74,23 +67,6 @@ xterm*|rxvt*)
 *)
     ;;
 esac
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    #alias grep='grep --color=auto'
-    #alias fgrep='fgrep --color=auto'
-    #alias egrep='egrep --color=auto'
-fi
-
-# some more ls aliases
-#alias ll='ls -l'
-#alias la='ls -A'
-#alias l='ls -CF'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -111,3 +87,61 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+
+##### misc options #####
+export VISUAL=vim
+export EDITOR=vim
+#export BROWSER=/usr/bin/chromium
+#export OOO_FORCE_DESKTOP=gnome soffice
+#export EMAIL=/usr/bin/claws-mail
+
+# Java options
+#export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=gasp'
+#export JAVA_FONTS=/usr/share/fonts/TTF
+
+# vi keybindings mode
+set -o vi
+
+# Fortune cowsay
+fortune -a | cowsay -y -f sheep
+
+# Allows autocomplete for sudo
+complete -cf sudo
+
+# fast autocompletion
+set show-all-if-ambiguous on
+
+# man colors w/ less
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;31m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;44;33m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;32m'
+
+##### functions #####
+
+# move follow/copy follow
+goto() { [ -d "$1" ] && cd "$1" || cd "$(dirname "$1")"; }
+cpf() { cp "$@" && goto "$_"; }
+mvf() { mv "$@" && goto "$_"; }
+
+mkcd() {
+	mkdir -p "$*"
+	cd "$*"
+}
+
+httpurl() {
+	ip=$(curl -s "http://www.whatismyip.org")
+	echo "http://$ip:8080" | xsel -b
+}
+
+# functions
+nicemount() { (echo "DEVICE PATH TYPE FLAGS" && mount | awk '$2=$4="";1') | column -t; }
+
+#weather() {
+#	curl -s "http://api.wunderground.com/auto/wui/geo/ForecastXML/index.xml?query=${@:-94044}" |\
+#	perl -ne '/<title>([^<]+)/&&printf "\x1B[0;34m%s\x1B[0m: ",$1;/<fcttext>([^<]+)/&&print $1,"\n"'
+#}
