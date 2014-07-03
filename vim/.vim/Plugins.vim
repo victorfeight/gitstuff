@@ -33,7 +33,7 @@ Plugin 'davidhalter/jedi-vim'
 Plugin 'vim-scripts/zim-syntax'
 Plugin 'hdima/python-syntax'
 Plugin 'hynek/vim-python-pep8-indent'
-"Plugin 'majutsushi/tagbar'
+Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/syntastic'
 
 call vundle#end()            " required
@@ -64,4 +64,3 @@ let python_version_2 = 1
 " syntastic settings
 let syntastic_python_checkers = ['flake8']
 let g:syntastic_check_on_open = 1
-
