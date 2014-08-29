@@ -64,3 +64,7 @@ let python_version_2 = 1
 " syntastic settings
 let syntastic_python_checkers = ['flake8']
 let g:syntastic_check_on_open = 1
+"let g:syntastic_debug = 3
+
+" Tagbar
+nnoremap <silent> <Leader>b :TagbarToggle<CR>

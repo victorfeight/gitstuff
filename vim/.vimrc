@@ -1,3 +1,4 @@
+" Vim settings on arch linux
 " Global vim settings may be overriden in ftplugin
 
 set backupdir=~/.vim/tmp/
@@ -11,3 +12,4 @@ colorscheme solarized
 set t_Co=16
 set guifont=DejaVu\ Sans\ Mono\ 12
 set wildmenu
+set modeline
