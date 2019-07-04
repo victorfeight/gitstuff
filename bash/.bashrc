@@ -1,15 +1,19 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # Add ~/bin to path
+export PATH="$PATH:~/bin"
 
-export PATH=$PATH:~/bin
-# If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
+# Ssh on login
+eval `ssh-agent -s` 
+ssh-add ~/.ssh/*_rsa
+
+# Add color
+eval `dircolors -b`
 
 # Set up prompt
 PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] '
+
+# Custom prompt 2
+# PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options

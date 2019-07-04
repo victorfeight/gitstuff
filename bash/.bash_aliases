@@ -12,9 +12,14 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 ##### aliases #####
+
+alias cls='clear'
+alias clls='clear; ls'
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
+alias lsg='ls | grep'
+alias na='nano'
 alias volup='amixer sset PCM 30+'
 alias voldown='amixer sset PCM 30-'
 alias du='du -c -h'
@@ -25,6 +30,7 @@ alias tmux='tmux -2'
 #alias x='xinit'
 #alias xm='xinit musca'
 #alias webshare='python -m SimpleHTTPServer' # use quickserve :)
+#alias web='links -g -download-dir ~/ www.google.com'
 
 # cd
 alias home='cd ~'
